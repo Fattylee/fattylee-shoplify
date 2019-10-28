@@ -1,0 +1,16 @@
+{
+  "name": "old-school",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "if [[ $NODE_ENV == 'development' ]]; then node ./bin/www; else cross-env DEBUG='old-school:server' nodemon ./bin/www; fi;"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
+  }
+}
