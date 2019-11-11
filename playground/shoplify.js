@@ -36,8 +36,37 @@ const Product = sequelize.define('product', {
 Product.belongsTo(Shop);
 Shop.hasMany(Product);
 
-sequelize.sync({force: true})
-.then(res => {
-  debug('connected!')
-})
-.catch(debug);
+const syncAndSeed = async () => {
+  try {
+  await sequelize.sync({force: true});
+  debug('connected!');
+  const shopRes = await Promise.all([
+    Shop.create({name: 'Mama put'}),
+    Shop.create({name: 'Mama sisi'}),
+    Shop.create({name: 'Iya alaje'}),
+  ]);
+  debug(shopRes.map(s => s.get()));
+  
+  const productRes = await Promise.all([
+    Product.create({name: 'Eba', price: '50', shopId: shopRes[2].id}),
+    Product.create({name: 'Fufu', price: '70', shopId: shopRes[2].id}),
+    Product.create({name: 'Rice', price: '100', shopId: shopRes[2].id}),
+    
+    Product.create({name: 'Eba', price: '30', shopId: shopRes[0].id}),
+    Product.create({name: 'Fufu', price: '50', shopId: shopRes[0].id}),
+    Product.create({name: 'Rice', price: '70', shopId: shopRes[0].id}),
+    
+    Product.create({name: 'Eba', price: '70', shopId: shopRes[1].id}),
+    Product.create({name: 'Fufu', price: '90', shopId: shopRes[1].id}),
+    Product.create({name: 'Rice', price: '150', shopId: shopRes[1].id}),
+  ]);
+  debug(productRes.map(p => p.get()));
+  
+  
+  }
+  catch(err) {
+    debug(err);
+  }
+};
+
+syncAndSeed();
