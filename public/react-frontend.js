@@ -24,10 +24,10 @@ class App extends React.Component {
           <li key={s.id}>{s.name} 
           <ol>
           {s.products && s.products.length < 1  ? <p>No products</p> :  Array.isArray( s.products) && <div> {s.products.map(p => (
-          <div>
+          <li>
             <p>Name: {p.name}</p>
             <p>Price: {p.price}</p>
-          </div>
+          </li>
           ))}</div> /*s.products.map( p => (<div>Sub List</div>))  */}
           </ol>
           </li>)
