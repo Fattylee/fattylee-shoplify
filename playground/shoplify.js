@@ -39,9 +39,27 @@ const Product = sequelize.define('product', {
 Product.belongsTo(Shop);
 Shop.hasMany(Product);
 
+// serve public assets
 app.use(express.static(path.resolve(__dirname, '../public')));
+
+// load home page
 app.get('/', (req, res, next) => {
   res.sendFile(path.resolve(__dirname, 'index.html'))
+});
+
+app.get('/products', async (req, res, next) => {
+  const productsRes = await Product.findAll({include: [Shop]});
+  res.send(productsRes);
+});
+
+app.get('/shops', async (req, res, next) => {
+  const shopsRes = await Shop.findAll({
+    include: [Product],
+    /*where: {
+      id: 3,
+    },*/
+    });
+  res.send(shopsRes);
 });
 
 const syncAndSeed = async () => {
