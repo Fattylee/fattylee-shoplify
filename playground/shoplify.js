@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize');
+const express = require('express');
+const app = express();
 const debug = require('debug')('shoplify');
+const path = require('path');
 
 const connectionStr = process.env.DATABASE_URL || 'postgres://fattylee:123456@localhost/shoplify';
 
@@ -36,10 +39,17 @@ const Product = sequelize.define('product', {
 Product.belongsTo(Shop);
 Shop.hasMany(Product);
 
+app.use(express.static(path.resolve(__dirname, '../public')));
+app.get('/', (req, res, next) => {
+  res.sendFile(path.resolve(__dirname, 'index.html'))
+});
+
 const syncAndSeed = async () => {
   try {
   await sequelize.sync({force: true});
   debug('connected!');
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => debug('Server listening on port', port));
   const shopRes = await Promise.all([
     Shop.create({name: 'Mama put'}),
     Shop.create({name: 'Mama sisi'}),
