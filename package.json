@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "if [[ $NODE_ENV == 'development' ]]; then node ./bin/www; else cross-env DEBUG='old-school:server' nodemon ./bin/www; fi;"
+    "start": "if [[ $NODE_ENV == 'development' ]]; then node ./bin/www; else cross-env DEBUG='old-school:server' nodemon ./bin/www; fi;",
+    "start:dev": "cross-env DEBUG='old-school:server' nodemon ./bin/www",
+    "post": "cross-env DEBUG=postgres nodemon playground/postgres.js -w playground/postgres.js",
+    "dev": "cross-env DEBUG=shoplify nodemon playground/shoplify.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

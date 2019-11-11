@@ -4,3 +4,9 @@
   <input type="email" name="email" placeholder="Enter email">
   <input type="submit" value="Submit">
 </form>
+
+<ul>
+  {{#each leads}}
+  <li data-id='{{id}}'>{{email}}</li>
+   {{/each}}
+</ul>
